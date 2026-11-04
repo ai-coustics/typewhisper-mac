@@ -7,6 +7,7 @@ import time
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+import defusedxml.ElementTree as DefusedET
 from dataclasses import dataclass
 from typing import Mapping
 
@@ -41,7 +42,7 @@ def item_channel(item: ET.Element) -> str:
 
 def verify_appcast(body: bytes, expected: PublicationExpectation) -> tuple[bool, str]:
     try:
-        root = ET.fromstring(body)
+        root = DefusedET.fromstring(body)
     except ET.ParseError as error:
         return False, f"response is not valid XML: {error}"
 
